@@ -46,13 +46,14 @@ class Fn:
         Evaluate the function at location loc.
         Raises ValueError if loc is out of bounds.
         '''
+        print("____________________________")
         pdb.set_trace()
-        loc1, loc2 = np.round(loc[0], np.round(loc[1]))
+        loc1, loc2 = np.round(loc.x1), np.round(loc.x2)
 
         if (loc1 >= self._fn.shape[0]) or (loc2 >= self._fn.shape[1]):
          raise ValueError()
-
-        return self._fn[loc1, loc2]
+        print(loc1, loc2)
+        return self._fn[int(loc1), int(loc2)]
 
 
 def grad(fn: Fn, loc: Vec2, eps: float) -> Vec2:
@@ -61,18 +62,19 @@ def grad(fn: Fn, loc: Vec2, eps: float) -> Vec2:
     using the given epsilon. See lecture 5 slides.
     Raises ValueError if loc is out of bounds of fn or if eps <= 0.
     '''
-
+    
     # TODO implement one of the two versions presented in the lecture
 
-    if (loc[0] >= fn._fn.shape[0]) or (loc[1] >= fn._fn.shape[1]):
+    if (loc.x1 >= fn._fn.shape[0]) or (loc.x2 >= fn._fn.shape[1]):
          raise ValueError()
 
     if eps <= 0: raise ValueError    
     grad = Vec2(None,None)
-    pdb.set_trace()
-    grad.x1 = (fn(Vec2(loc.x1+eps, loc.x2)-fn(Vec2(loc.x1-eps, loc.x2))))/(2*eps)
-    grad.x2 = (fn(Vec2(loc.x1, loc.x2+eps)-fn(Vec2(loc.x1, loc.x2-eps))))/(2*eps)
 
+    grad.x1 = (fn(Vec2(loc.x1+eps, loc.x2)-fn(Vec2(loc.x1-eps, loc.x2))))/(2*eps)
+    print("-----------------------")
+    grad.x2 = (fn(Vec2(loc.x1, loc.x2+eps)-fn(Vec2(loc.x1, loc.x2-eps))))/(2*eps)
+    print("wwwwwwwwwwwwwwwwwwww-")
     return grad
 
 def add_vec2(v1: Vec2, v2:Vec2):
@@ -105,9 +107,11 @@ if __name__ == '__main__':
     # init
 
     fn = Fn(args.fpath)
-    pdb.set_trace()
     vis = fn.visualize()
-    loc = Vec2(args.sx1, args.sx2)
+    loc = Vec2(int(args.sx1), int(args.sx2))
+    grad(fn,Vec2(int(1),int(1)), args.eps)
+    print("ENDE")
+    pdb.set_trace()
     velo = Vec2(0,0)
 
     # perform gradient descent
